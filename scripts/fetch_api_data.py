@@ -1,21 +1,21 @@
-import requests
 from pymongo import MongoClient
 import certifi
+import requests
+import datetime
 
-# MongoDB connection
 uri = "mongodb+srv://Aritra:Aritra98@cluster0.qvndesi.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, tlsCAFile=certifi.where())
-db = client["weather_data"]
-collection = db["open_meteo"]
+db = client["real_time_pipeline"]
+collection = db["crypto_data"]
 
-# API endpoint
-url = "https://api.open-meteo.com/v1/forecast?latitude=22.57&longitude=88.36&hourly=temperature_2m"
+# Sample API
+url = url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+response = requests.get(url)
 
-# Fetch and insert data
-try:
-    response = requests.get(url)
+if response.status_code == 200:
     data = response.json()
-    collection.insert_one(data)
-    print("Data inserted successfully")
-except Exception as e:
-    print("Error fetching or inserting data:", e)
+    data["timestamp"] = datetime.datetime.utcnow()
+    result = collection.insert_one(data)
+    print(f"Inserted ID: {result.inserted_id}")
+else:
+    print("Failed to fetch data:", response.status_code)
