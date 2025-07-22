@@ -19,10 +19,10 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install requests pymongo
+        run: pip install requests pymongo certifi
 
       - name: Run API fetch script
+        working-directory: scripts  
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
         run: python fetch_api_data.py
-        working-directory: scripts
