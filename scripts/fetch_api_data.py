@@ -1,23 +1,21 @@
 import requests
-import pymongo
-import os
-from datetime import datetime
+from pymongo import MongoClient
+import certifi
 
-# Reads MongoDB connection URI from environment variable
-MONGO_URI = os.getenv("MONGO_URI")
+# MongoDB connection
+uri = "mongodb+srv://Aritra:Aritra98@cluster0.qvndesi.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(uri, tlsCAFile=certifi.where())
+db = client["weather_data"]
+collection = db["open_meteo"]
 
-# Connect to MongoDB
-client = pymongo.MongoClient(MONGO_URI)
-db = client["realtime_db"]
-collection = db["api_data"]
+# API endpoint
+url = "https://api.open-meteo.com/v1/forecast?latitude=22.57&longitude=88.36&hourly=temperature_2m"
 
-# Fetch data from public API (example: exchange_rate)
-response = requests.get("https://api.exchangerate-api.com/v4/latest/USD")
-
-if response.status_code == 200:
+# Fetch and insert data
+try:
+    response = requests.get(url)
     data = response.json()
-    data["_fetched_at"] = datetime.utcnow()
     collection.insert_one(data)
-    print("Data inserted to MongoDB.")
-else:
-    print(f"❌ API failed: {response.status_code}")
+    print("Data inserted successfully")
+except Exception as e:
+    print("Error fetching or inserting data:", e)
