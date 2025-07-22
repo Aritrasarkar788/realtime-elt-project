@@ -1,7 +1,7 @@
 import requests
 import pymongo
 import os
-from datetime import 
+from datetime import datetime
 
 # Reads MongoDB connection URI from environment variable
 MONGO_URI = os.getenv("MONGO_URI")
