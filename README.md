@@ -5,12 +5,12 @@ The system ingests live cryptocurrency prices, cleans and transforms them, store
 
 
 ## Project Goals
-- Ingest real-time API data **continuously** (even if local PC is off).  
+- Ingest real-time API data "continuously" (even if local PC is off).  
 - Store raw → cleaned → gold data layers for reliability.  
-- Perform **streaming transformations** using Kafka + PySpark.  
-- Orchestrate workflows using **Airflow**.  
-- Build **BI dashboards and forecasts** for business insights.  
-- Design a **CV-ready, production-like system**.  
+- Perform "streaming transformations" using Kafka + PySpark.  
+- Orchestrate workflows using "Airflow".  
+- Build "BI dashboards and forecasts" for business insights.  
+  
 
 
 ## Architecture
